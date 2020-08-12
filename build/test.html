@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="start">start</button>
+    <button id="cancel">cancel</button>
+    <script>
+        function gotStream(stream) {
+            console.log("Received local stream");
+            var video = document.querySelector("video");
+            video.src = URL.createObjectURL(stream);
+            localstream = stream;
+            stream.onended = function () { console.log("Ended"); };
+        }
+
+        function getUserMediaError() {
+            console.log("getUserMedia() failed.");
+        }
+
+        function onAccessApproved(id) {
+            if (!id) {
+                console.log("Access rejected.");
+                return;
+            }
+            navigator.webkitGetUserMedia({
+                audio: false,
+                video: {
+                    mandatory: {
+                        chromeMediaSource: "desktop",
+                        chromeMediaSourceId: id
+                    }
+                }
+            }, gotStream, getUserMediaError);
+        }
+
+        var pending_request_id = null;
+
+        document.querySelector('#start').addEventListener('click', function (e) {
+            window.navigator.mediaDevices.getUserMedia({audio:false,video:{
+                width:1280
+            }})
+            .then(i=>{
+
+            })
+        });
+
+        document.querySelector('#cancel').addEventListener('click', function (e) {
+            // if (pending_request_id != null) {
+            //     chrome.desktopCapture.cancelChooseDesktopMedia(pending_request_id);
+            // }
+        });
+    </script>
+</body>
+
+</html>
